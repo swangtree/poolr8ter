@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>poolr8ter</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dark-navy': '#0a0a0f',
+                        'soft-pink': '#ff6b9d',
+                        'off-white': '#e8e8e8',
+                        'pastel-blue': '#87ceeb',
+                        'daffodil-yellow': '#ffeb3b'
+                    },
+                    fontFamily: {
+                        'mono': ['JetBrains Mono', 'monospace'],
+                        'sans': ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .tab-active {
+            position: relative;
+        }
+        .tab-active::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #ff6b9d;
+        }
+        .hover-glow:hover {
+            text-shadow: 0 0 8px rgba(255, 107, 157, 0.6);
+            transition: text-shadow 0.2s ease;
+        }
+    </style>
+</head>
+<body class="bg-dark-navy text-off-white min-h-screen font-sans">
+    <div class="container mx-auto px-6 py-8 max-w-6xl">
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <h1 class="text-6xl font-bold text-soft-pink mb-2 tracking-tight hover-glow cursor-default">
+                poolr8ter
+            </h1>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav class="mb-8">
+            <div class="flex justify-center space-x-8 border-b border-soft-pink/20 pb-2">
+                <button class="tab-active text-soft-pink font-medium px-4 py-2 hover-glow transition-colors duration-200">
+                    Home/Track
+                </button>
+                <button class="text-off-white font-medium px-4 py-2 hover:text-soft-pink hover-glow transition-colors duration-200">
+                    Leaderboard
+                </button>
+                <button class="text-off-white font-medium px-4 py-2 hover:text-soft-pink hover-glow transition-colors duration-200">
+                    Matches
+                </button>
+                <button class="text-off-white font-medium px-4 py-2 hover:text-soft-pink hover-glow transition-colors duration-200">
+                    Account
+                </button>
+                <button class="text-off-white font-medium px-4 py-2 hover:text-soft-pink hover-glow transition-colors duration-200">
+                    Rules
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main Content Container -->
+        <main class="border-2 border-soft-pink rounded-lg p-8 min-h-96">
+            <div class="text-center">
+                <p class="text-off-white text-lg leading-relaxed max-w-2xl mx-auto">
+                    Welcome to poolr8ter, your competitive pool league tracking system. 
+                    Select a tab above to get started with tracking matches, viewing the leaderboard, 
+                    or managing your account. The clean, minimalist interface keeps you focused 
+                    on what matters most - your game.
+                </p>
+                
+                <div class="mt-8 space-y-4">
+                    <div class="inline-block bg-soft-pink/10 border border-soft-pink/30 rounded-lg px-6 py-4">
+                        <p class="text-soft-pink font-medium">Ready to track your next match?</p>
+                        <p class="text-off-white/80 text-sm mt-1">Click on "Home/Track" to report your latest game results.</p>
+                    </div>
+                </div>
+
+                <!-- Sample Data Display (Monkeytype-inspired) -->
+                <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                    <div class="border border-soft-pink/30 rounded-lg p-4">
+                        <div class="text-2xl font-mono font-bold text-soft-pink">1,247</div>
+                        <div class="text-off-white/70 text-sm uppercase tracking-wide">Current ELO</div>
+                    </div>
+                    <div class="border border-soft-pink/30 rounded-lg p-4">
+                        <div class="text-2xl font-mono font-bold text-pastel-blue">23</div>
+                        <div class="text-off-white/70 text-sm uppercase tracking-wide">Matches Played</div>
+                    </div>
+                    <div class="border border-soft-pink/30 rounded-lg p-4">
+                        <div class="text-2xl font-mono font-bold text-daffodil-yellow">67%</div>
+                        <div class="text-off-white/70 text-sm uppercase tracking-wide">Win Rate</div>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="mt-8 flex justify-center space-x-6">
+                    <a href="#" class="text-daffodil-yellow hover:text-daffodil-yellow/80 underline transition-colors duration-200">
+                        View Full Rules
+                    </a>
+                    <span class="text-off-white/40">•</span>
+                    <a href="#" class="text-daffodil-yellow hover:text-daffodil-yellow/80 underline transition-colors duration-200">
+                        Season Info
+                    </a>
+                    <span class="text-off-white/40">•</span>
+                    <a href="#" class="text-daffodil-yellow hover:text-daffodil-yellow/80 underline transition-colors duration-200">
+                        Contact Support
+                    </a>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="mt-12 text-center">
+            <p class="text-off-white/50 text-sm">
+                Built for competitive pool players • 
+                <a href="#" class="text-daffodil-yellow hover:text-daffodil-yellow/80 transition-colors duration-200">
+                    GitHub
+                </a>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Simple tab switching functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('nav button');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    tabs.forEach(t => {
+                        t.classList.remove('tab-active', 'text-soft-pink');
+                        t.classList.add('text-off-white');
+                    });
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('tab-active', 'text-soft-pink');
+                    this.classList.remove('text-off-white');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
