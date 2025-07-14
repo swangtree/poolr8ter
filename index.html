@@ -81,51 +81,141 @@
 
         <!-- Main Content Container -->
         <main class="border-2 border-soft-pink rounded-lg p-8 min-h-96">
-            <div class="text-center">
-                <p class="text-off-white text-lg leading-relaxed max-w-2xl mx-auto">
-                    Welcome to poolr8ter, your competitive pool league tracking system. 
-                    Select a tab above to get started with tracking matches, viewing the leaderboard, 
-                    or managing your account. The clean, minimalist interface keeps you focused 
-                    on what matters most - your game.
-                </p>
-                
-                <div class="mt-8 space-y-4">
-                    <div class="inline-block bg-soft-pink/10 border border-soft-pink/30 rounded-lg px-6 py-4">
-                        <p class="text-soft-pink font-medium">Ready to track your next match?</p>
-                        <p class="text-off-white/80 text-sm mt-1">Click on "Home/Track" to report your latest game results.</p>
+            <!-- Home/Track Tab Content -->
+            <div id="home-content" class="tab-content">
+                <div class="text-center">
+                    <p class="text-off-white text-lg leading-relaxed max-w-2xl mx-auto">
+                        Welcome to poolr8ter, your competitive pool league tracking system. 
+                        Select a tab above to get started with tracking matches, viewing the leaderboard, 
+                        or managing your account. The clean, minimalist interface keeps you focused 
+                        on what matters most - your game.
+                    </p>
+                    
+                    <div class="mt-8 space-y-4">
+                        <div class="inline-block bg-soft-pink/10 border border-soft-pink/30 rounded-lg px-6 py-4">
+                            <p class="text-soft-pink font-medium">Ready to track your next match?</p>
+                            <p class="text-off-white/80 text-sm mt-1">Click on "Home/Track" to report your latest game results.</p>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Sample Data Display (Monkeytype-inspired) -->
-                <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-                    <div class="border border-soft-pink/30 rounded-lg p-4">
-                        <div class="text-2xl font-mono font-bold text-soft-pink">1,247</div>
-                        <div class="text-off-white/70 text-sm uppercase tracking-wide">Current ELO</div>
+                    <!-- Sample Data Display (Monkeytype-inspired) -->
+                    <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                        <div class="border border-soft-pink/30 rounded-lg p-4">
+                            <div class="text-2xl font-mono font-bold text-soft-pink">1,247</div>
+                            <div class="text-off-white/70 text-sm uppercase tracking-wide">Current ELO</div>
+                        </div>
+                        <div class="border border-soft-pink/30 rounded-lg p-4">
+                            <div class="text-2xl font-mono font-bold text-pastel-blue">23</div>
+                            <div class="text-off-white/70 text-sm uppercase tracking-wide">Matches Played</div>
+                        </div>
+                        <div class="border border-soft-pink/30 rounded-lg p-4">
+                            <div class="text-2xl font-mono font-bold text-daffodil-yellow">67%</div>
+                            <div class="text-off-white/70 text-sm uppercase tracking-wide">Win Rate</div>
+                        </div>
                     </div>
-                    <div class="border border-soft-pink/30 rounded-lg p-4">
-                        <div class="text-2xl font-mono font-bold text-pastel-blue">23</div>
-                        <div class="text-off-white/70 text-sm uppercase tracking-wide">Matches Played</div>
-                    </div>
-                    <div class="border border-soft-pink/30 rounded-lg p-4">
-                        <div class="text-2xl font-mono font-bold text-daffodil-yellow">67%</div>
-                        <div class="text-off-white/70 text-sm uppercase tracking-wide">Win Rate</div>
-                    </div>
-                </div>
 
-                <!-- Quick Links -->
-                <div class="mt-8 flex justify-center space-x-6">
-                    <a href="#" class="text-daffodil-yellow hover:text-daffodil-yellow/80 underline transition-colors duration-200">
-                        View Full Rules
-                    </a>
-                    <span class="text-off-white/40">•</span>
-                    <a href="#" class="text-daffodil-yellow hover:text-daffodil-yellow/80 underline transition-colors duration-200">
-                        Season Info
-                    </a>
-                    <span class="text-off-white/40">•</span>
-                    <a href="#" class="text-daffodil-yellow hover:text-daffodil-yellow/80 underline transition-colors duration-200">
-                        Contact Support
-                    </a>
+                    <!-- Quick Links -->
+                    <div class="mt-8 flex justify-center space-x-6">
+                        <a href="#" class="text-daffodil-yellow hover:text-daffodil-yellow/80 underline transition-colors duration-200">
+                            View Full Rules
+                        </a>
+                        <span class="text-off-white/40">•</span>
+                        <a href="#" class="text-daffodil-yellow hover:text-daffodil-yellow/80 underline transition-colors duration-200">
+                            Season Info
+                        </a>
+                        <span class="text-off-white/40">•</span>
+                        <a href="#" class="text-daffodil-yellow hover:text-daffodil-yellow/80 underline transition-colors duration-200">
+                            Contact Support
+                        </a>
+                    </div>
                 </div>
+            </div>
+
+            <!-- Leaderboard Tab Content -->
+            <div id="leaderboard-content" class="tab-content hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="border-b border-soft-pink">
+                                <th class="text-left py-4 px-2 text-soft-pink uppercase tracking-wider text-sm font-medium w-16">Rank</th>
+                                <th class="text-left py-4 px-4 text-soft-pink uppercase tracking-wider text-sm font-medium">Player</th>
+                                <th class="text-left py-4 px-2 text-soft-pink uppercase tracking-wider text-sm font-medium w-24">ELO</th>
+                                <th class="text-left py-4 px-2 text-soft-pink uppercase tracking-wider text-sm font-medium w-20">Wins</th>
+                                <th class="text-left py-4 px-2 text-soft-pink uppercase tracking-wider text-sm font-medium w-20">Losses</th>
+                                <th class="text-left py-4 px-2 text-soft-pink uppercase tracking-wider text-sm font-medium w-20">Win %</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="hover:bg-dark-navy/20 transition-colors duration-200">
+                                <td class="py-4 px-2 text-off-white font-mono">1</td>
+                                <td class="py-4 px-4 text-off-white">Alexandra Chen</td>
+                                <td class="py-4 px-2 text-off-white font-mono">1847</td>
+                                <td class="py-4 px-2 text-off-white">42</td>
+                                <td class="py-4 px-2 text-off-white">8</td>
+                                <td class="py-4 px-2 text-off-white">84%</td>
+                            </tr>
+                            <tr class="hover:bg-dark-navy/20 transition-colors duration-200">
+                                <td class="py-4 px-2 text-off-white font-mono">2</td>
+                                <td class="py-4 px-4 text-off-white">Marcus Rodriguez</td>
+                                <td class="py-4 px-2 text-off-white font-mono">1723</td>
+                                <td class="py-4 px-2 text-off-white">38</td>
+                                <td class="py-4 px-2 text-off-white">12</td>
+                                <td class="py-4 px-2 text-off-white">76%</td>
+                            </tr>
+                            <tr class="hover:bg-dark-navy/20 transition-colors duration-200">
+                                <td class="py-4 px-2 text-off-white font-mono">3</td>
+                                <td class="py-4 px-4 text-off-white">Sarah Thompson</td>
+                                <td class="py-4 px-2 text-off-white font-mono">1689</td>
+                                <td class="py-4 px-2 text-off-white">35</td>
+                                <td class="py-4 px-2 text-off-white">15</td>
+                                <td class="py-4 px-2 text-off-white">70%</td>
+                            </tr>
+                            <tr class="hover:bg-dark-navy/20 transition-colors duration-200">
+                                <td class="py-4 px-2 text-off-white font-mono">4</td>
+                                <td class="py-4 px-4 text-off-white">David Kim</td>
+                                <td class="py-4 px-2 text-off-white font-mono">1542</td>
+                                <td class="py-4 px-2 text-off-white">29</td>
+                                <td class="py-4 px-2 text-off-white">18</td>
+                                <td class="py-4 px-2 text-off-white">62%</td>
+                            </tr>
+                            <tr class="hover:bg-dark-navy/20 transition-colors duration-200">
+                                <td class="py-4 px-2 text-off-white font-mono">5</td>
+                                <td class="py-4 px-4 text-off-white">Emily Johnson</td>
+                                <td class="py-4 px-2 text-off-white font-mono">1498</td>
+                                <td class="py-4 px-2 text-off-white">26</td>
+                                <td class="py-4 px-2 text-off-white">19</td>
+                                <td class="py-4 px-2 text-off-white">58%</td>
+                            </tr>
+                            <tr class="hover:bg-dark-navy/20 transition-colors duration-200">
+                                <td class="py-4 px-2 text-off-white font-mono">6</td>
+                                <td class="py-4 px-4 text-off-white">James Wilson</td>
+                                <td class="py-4 px-2 text-off-white font-mono">1367</td>
+                                <td class="py-4 px-2 text-off-white">22</td>
+                                <td class="py-4 px-2 text-off-white">23</td>
+                                <td class="py-4 px-2 text-off-white">49%</td>
+                            </tr>
+                            <tr class="hover:bg-dark-navy/20 transition-colors duration-200">
+                                <td class="py-4 px-2 text-off-white font-mono">7</td>
+                                <td class="py-4 px-4 text-off-white">Lisa Martinez</td>
+                                <td class="py-4 px-2 text-off-white font-mono">1289</td>
+                                <td class="py-4 px-2 text-off-white">18</td>
+                                <td class="py-4 px-2 text-off-white">27</td>
+                                <td class="py-4 px-2 text-off-white">40%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Placeholder content for other tabs -->
+            <div id="matches-content" class="tab-content hidden">
+                <p class="text-off-white text-center">Matches content coming soon...</p>
+            </div>
+            <div id="account-content" class="tab-content hidden">
+                <p class="text-off-white text-center">Account content coming soon...</p>
+            </div>
+            <div id="rules-content" class="tab-content hidden">
+                <p class="text-off-white text-center">Rules content coming soon...</p>
             </div>
         </main>
 
@@ -144,6 +234,15 @@
         // Simple tab switching functionality
         document.addEventListener('DOMContentLoaded', function() {
             const tabs = document.querySelectorAll('nav button');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            const tabMap = {
+                'Home/Track': 'home-content',
+                'Leaderboard': 'leaderboard-content',
+                'Matches': 'matches-content',
+                'Account': 'account-content',
+                'Rules': 'rules-content'
+            };
             
             tabs.forEach(tab => {
                 tab.addEventListener('click', function() {
@@ -156,6 +255,17 @@
                     // Add active class to clicked tab
                     this.classList.add('tab-active', 'text-soft-pink');
                     this.classList.remove('text-off-white');
+                    
+                    // Hide all tab contents
+                    tabContents.forEach(content => {
+                        content.classList.add('hidden');
+                    });
+                    
+                    // Show the selected tab content
+                    const targetContent = document.getElementById(tabMap[this.textContent.trim()]);
+                    if (targetContent) {
+                        targetContent.classList.remove('hidden');
+                    }
                 });
             });
         });
