@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "dev": "cd worker && npm run dev"
+  },
   "devDependencies": {
     "wrangler": "^4.22.0"
   }
