@@ -1,0 +1,13 @@
+{
+  "players": {
+    "sam": {
+      "elo": 1200,
+      "pwd": "$2b$10$neAP1O3WSGx/5FpupcVLp.RnLzgO9f2CImvcpm6xtCmYMtLuSHJtq"
+    },
+    "erin": {
+      "elo": 1180,
+      "pwd": "$2b$10$h0dl.r955/jDyVsnh7yHBOgs0YcHTkENWwo8hR2B213TT7JC33Y8a"
+    }
+  },
+  "matches": []
+}
