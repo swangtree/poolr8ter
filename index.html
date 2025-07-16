@@ -204,7 +204,8 @@
                     <div id="matches-content" class="tab-content hidden">
                         <h2 class="text-3xl font-bold text-soft-pink mb-8">My Match History</h2>
                         
-                        <ol class="space-y-6">
+                        <div class="max-h-96 overflow-y-auto pr-2">
+                            <ol class="space-y-6">
                             <!-- Match 1 - Victory -->
                             <li class="border-b border-soft-pink/30 pb-6">
                                 <div class="space-y-2">
@@ -252,7 +253,8 @@
                                     <div class="text-off-white/70 text-sm">January 8, 2025</div>
                                 </div>
                             </li>
-                        </ol>
+                            </ol>
+                        </div>
                     </div>
                     <div id="account-content" class="tab-content hidden">
                         <p class="text-off-white text-center">Account content coming soon...</p>
@@ -263,7 +265,7 @@
                 </div>
 
                 <!-- Right Column (Sidebar - 1/3 width) -->
-                <div class="lg:col-span-1">
+                <div id="sidebar" class="lg:col-span-1">
                     <div class="bg-dark-navy/20 border border-soft-pink/20 rounded-lg p-6">
                         <h3 class="text-xl font-bold text-soft-pink mb-6 uppercase tracking-wider">Top 5 Players</h3>
                         <ol class="space-y-4">
@@ -354,6 +356,14 @@
                     const targetContent = document.getElementById(tabMap[this.textContent.trim()]);
                     if (targetContent) {
                         targetContent.classList.remove('hidden');
+                    }
+                    
+                    // Show/hide sidebar based on active tab
+                    const sidebar = document.getElementById('sidebar');
+                    if (this.textContent.trim() === 'Home/Track') {
+                        sidebar.classList.remove('hidden');
+                    } else {
+                        sidebar.classList.add('hidden');
                     }
                 });
             });
