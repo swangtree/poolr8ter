@@ -83,50 +83,81 @@
         <main class="border-2 border-soft-pink rounded-lg p-8 min-h-96">
             <!-- Home/Track Tab Content -->
             <div id="home-content" class="tab-content">
-                <div class="text-center">
-                    <p class="text-off-white text-lg leading-relaxed max-w-2xl mx-auto">
-                        Welcome to poolr8ter, your competitive pool league tracking system. 
-                        Select a tab above to get started with tracking matches, viewing the leaderboard, 
-                        or managing your account. The clean, minimalist interface keeps you focused 
-                        on what matters most - your game.
-                    </p>
+                <!-- State 1: Initial View -->
+                <div id="initial-view" class="text-center">
+                    <div class="flex justify-center items-center min-h-64">
+                        <button id="track-match-btn" class="bg-soft-pink hover:bg-soft-pink/90 text-dark-navy font-bold text-xl px-12 py-6 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-soft-pink/20 transform hover:scale-105">
+                            Track a New Match
+                        </button>
+                    </div>
+                </div>
+
+                <!-- State 2: Form View -->
+                <div id="form-view" class="hidden">
+                    <h2 class="text-2xl font-bold text-soft-pink mb-8 text-center">Report a New Match</h2>
                     
-                    <div class="mt-8 space-y-4">
-                        <div class="inline-block bg-soft-pink/10 border border-soft-pink/30 rounded-lg px-6 py-4">
-                            <p class="text-soft-pink font-medium">Ready to track your next match?</p>
-                            <p class="text-off-white/80 text-sm mt-1">Click on "Home/Track" to report your latest game results.</p>
+                    <form class="max-w-md mx-auto space-y-8">
+                        <!-- Opponent Selection -->
+                        <div>
+                            <label class="block text-off-white font-medium mb-3">Choose your Opponent</label>
+                            <div class="relative">
+                                <input 
+                                    type="text" 
+                                    id="opponent-search" 
+                                    placeholder="Search for a player..."
+                                    class="w-full bg-transparent border-2 border-soft-pink/50 rounded-lg px-4 py-3 text-off-white placeholder-off-white/50 focus:border-soft-pink focus:outline-none transition-colors duration-200"
+                                >
+                                <div id="player-list" class="absolute top-full left-0 right-0 mt-2 bg-dark-navy border-2 border-soft-pink/30 rounded-lg max-h-48 overflow-y-auto z-10">
+                                    <div class="player-option px-4 py-3 text-off-white hover:bg-soft-pink/10 cursor-pointer transition-colors duration-200" data-player="Alexandra Chen">
+                                        Alexandra Chen
+                                    </div>
+                                    <div class="player-option px-4 py-3 text-off-white hover:bg-soft-pink/10 cursor-pointer transition-colors duration-200" data-player="Marcus Rodriguez">
+                                        Marcus Rodriguez
+                                    </div>
+                                    <div class="player-option px-4 py-3 text-off-white hover:bg-soft-pink/10 cursor-pointer transition-colors duration-200" data-player="Sarah Thompson">
+                                        Sarah Thompson
+                                    </div>
+                                    <div class="player-option px-4 py-3 text-off-white hover:bg-soft-pink/10 cursor-pointer transition-colors duration-200" data-player="David Kim">
+                                        David Kim
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
 
-                    <!-- Sample Data Display (Monkeytype-inspired) -->
-                    <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-                        <div class="border border-soft-pink/30 rounded-lg p-4">
-                            <div class="text-2xl font-mono font-bold text-soft-pink">1,247</div>
-                            <div class="text-off-white/70 text-sm uppercase tracking-wide">Current ELO</div>
+                        <!-- Winner Selection -->
+                        <div>
+                            <label class="block text-off-white font-medium mb-4">Who Won?</label>
+                            <div class="space-y-3">
+                                <label class="flex items-center cursor-pointer group">
+                                    <input type="radio" name="winner" value="me" class="sr-only">
+                                    <div class="w-5 h-5 border-2 border-soft-pink/50 rounded-full mr-3 flex items-center justify-center group-hover:border-soft-pink transition-colors duration-200">
+                                        <div class="w-2.5 h-2.5 bg-soft-pink rounded-full opacity-0 radio-dot transition-opacity duration-200"></div>
+                                    </div>
+                                    <span class="text-off-white group-hover:text-soft-pink transition-colors duration-200">Me</span>
+                                </label>
+                                <label class="flex items-center cursor-pointer group">
+                                    <input type="radio" name="winner" value="opponent" class="sr-only">
+                                    <div class="w-5 h-5 border-2 border-soft-pink/50 rounded-full mr-3 flex items-center justify-center group-hover:border-soft-pink transition-colors duration-200">
+                                        <div class="w-2.5 h-2.5 bg-soft-pink rounded-full opacity-0 radio-dot transition-opacity duration-200"></div>
+                                    </div>
+                                    <span class="text-off-white group-hover:text-soft-pink transition-colors duration-200">My Opponent</span>
+                                </label>
+                            </div>
                         </div>
-                        <div class="border border-soft-pink/30 rounded-lg p-4">
-                            <div class="text-2xl font-mono font-bold text-pastel-blue">23</div>
-                            <div class="text-off-white/70 text-sm uppercase tracking-wide">Matches Played</div>
-                        </div>
-                        <div class="border border-soft-pink/30 rounded-lg p-4">
-                            <div class="text-2xl font-mono font-bold text-daffodil-yellow">67%</div>
-                            <div class="text-off-white/70 text-sm uppercase tracking-wide">Win Rate</div>
-                        </div>
-                    </div>
 
-                    <!-- Quick Links -->
-                    <div class="mt-8 flex justify-center space-x-6">
-                        <a href="#" class="text-daffodil-yellow hover:text-daffodil-yellow/80 underline transition-colors duration-200">
-                            View Full Rules
-                        </a>
-                        <span class="text-off-white/40">•</span>
-                        <a href="#" class="text-daffodil-yellow hover:text-daffodil-yellow/80 underline transition-colors duration-200">
-                            Season Info
-                        </a>
-                        <span class="text-off-white/40">•</span>
-                        <a href="#" class="text-daffodil-yellow hover:text-daffodil-yellow/80 underline transition-colors duration-200">
-                            Contact Support
-                        </a>
+                        <!-- Submit Button -->
+                        <div class="pt-4">
+                            <button type="submit" class="w-full bg-transparent border-2 border-soft-pink text-soft-pink font-bold py-3 rounded-lg hover:bg-soft-pink hover:text-dark-navy transition-all duration-300">
+                                Submit Match
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Back Button -->
+                    <div class="text-center mt-8">
+                        <button id="back-btn" class="text-daffodil-yellow hover:text-daffodil-yellow/80 underline transition-colors duration-200">
+                            ← Back to Home
+                        </button>
                     </div>
                 </div>
             </div>
@@ -265,6 +296,77 @@
                     const targetContent = document.getElementById(tabMap[this.textContent.trim()]);
                     if (targetContent) {
                         targetContent.classList.remove('hidden');
+                    }
+                });
+            });
+
+            // Home/Track component functionality
+            const trackMatchBtn = document.getElementById('track-match-btn');
+            const initialView = document.getElementById('initial-view');
+            const formView = document.getElementById('form-view');
+            const backBtn = document.getElementById('back-btn');
+            const opponentSearch = document.getElementById('opponent-search');
+            const playerList = document.getElementById('player-list');
+            const playerOptions = document.querySelectorAll('.player-option');
+            const radioInputs = document.querySelectorAll('input[name="winner"]');
+            const radioDots = document.querySelectorAll('.radio-dot');
+
+            // Switch to form view
+            trackMatchBtn.addEventListener('click', function() {
+                initialView.classList.add('hidden');
+                formView.classList.remove('hidden');
+            });
+
+            // Switch back to initial view
+            backBtn.addEventListener('click', function() {
+                formView.classList.add('hidden');
+                initialView.classList.remove('hidden');
+                // Reset form
+                opponentSearch.value = '';
+                playerList.style.display = 'block';
+                radioInputs.forEach(input => input.checked = false);
+                radioDots.forEach(dot => dot.style.opacity = '0');
+            });
+
+            // Opponent search functionality
+            opponentSearch.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                playerOptions.forEach(option => {
+                    const playerName = option.textContent.toLowerCase();
+                    if (playerName.includes(searchTerm)) {
+                        option.style.display = 'block';
+                    } else {
+                        option.style.display = 'none';
+                    }
+                });
+            });
+
+            // Player selection
+            playerOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    opponentSearch.value = this.textContent;
+                    playerList.style.display = 'none';
+                });
+            });
+
+            // Show player list when input is focused
+            opponentSearch.addEventListener('focus', function() {
+                playerList.style.display = 'block';
+            });
+
+            // Hide player list when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('#opponent-search') && !e.target.closest('#player-list')) {
+                    playerList.style.display = 'none';
+                }
+            });
+
+            // Custom radio button functionality
+            radioInputs.forEach((input, index) => {
+                input.addEventListener('change', function() {
+                    radioDots.forEach(dot => dot.style.opacity = '0');
+                    if (this.checked) {
+                        radioDots[index].style.opacity = '1';
                     }
                 });
             });
