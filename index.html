@@ -47,6 +47,30 @@
             text-shadow: 0 0 8px rgba(255, 107, 157, 0.6);
             transition: text-shadow 0.2s ease;
         }
+        
+        /* Custom scrollbar styling */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #fca6d1;
+            border-radius: 4px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background-color: #ff6b9d;
+        }
+        
+        /* Firefox scrollbar styling */
+        .custom-scrollbar {
+            scrollbar-width: thin;
+            scrollbar-color: #fca6d1 transparent;
+        }
     </style>
 </head>
 <body class="bg-dark-navy text-off-white min-h-screen font-sans">
@@ -204,7 +228,7 @@
                     <div id="matches-content" class="tab-content hidden">
                         <h2 class="text-3xl font-bold text-soft-pink mb-8">My Match History</h2>
                         
-                        <div class="max-h-96 overflow-y-auto pr-2">
+                        <div class="max-h-96 overflow-y-auto pr-2 custom-scrollbar">
                             <ol class="space-y-6">
                             <!-- Match 1 - Victory -->
                             <li class="border-b border-soft-pink/30 pb-6">
