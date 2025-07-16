@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -28,6 +29,11 @@
         }
     </script>
     <style>
+        html {
+            overflow-y: scroll;
+            scrollbar-width: thin;
+            scrollbar-color: #fca6d1 transparent;
+        }
         body {
             font-family: 'Inter', sans-serif;
         }
@@ -48,21 +54,21 @@
             transition: text-shadow 0.2s ease;
         }
         
-        /* Custom scrollbar styling */
-        .custom-scrollbar::-webkit-scrollbar {
+        /* Custom scrollbar styling for the whole page */
+        body::-webkit-scrollbar {
             width: 8px;
         }
         
-        .custom-scrollbar::-webkit-scrollbar-track {
+        body::-webkit-scrollbar-track {
             background: transparent;
         }
         
-        .custom-scrollbar::-webkit-scrollbar-thumb {
+        body::-webkit-scrollbar-thumb {
             background-color: #fca6d1;
             border-radius: 4px;
         }
         
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        body::-webkit-scrollbar-thumb:hover {
             background-color: #ff6b9d;
         }
         
@@ -87,7 +93,7 @@
         }
     </style>
 </head>
-<body class="bg-dark-navy text-off-white min-h-screen font-sans">
+<body class="bg-dark-navy text-off-white min-h-screen font-sans" x-data="{activeTab: 'home', isTrackingMatch: false}">
     <div class="container mx-auto px-6 py-8 max-w-6xl">
         <!-- Header -->
         <header class="text-center mb-12">
@@ -99,19 +105,34 @@
         <!-- Navigation Tabs -->
         <nav class="mb-8">
             <div class="flex justify-center space-x-8 border-b border-soft-pink/20 pb-2">
-                <button class="tab-active text-soft-pink font-medium px-4 py-2 hover-glow transition-colors duration-200">
+                <button 
+                @click="activeTab = 'home'"
+                :class="{ 'tab-active text-soft-pink': activeTab === 'home', 'text-off-white': activeTab !== 'home' }"
+                class="font-medium px-4 py-2 hover:text-soft-pink hover-glow transition-colors duration-200">
                     Home/Track
                 </button>
-                <button class="text-off-white font-medium px-4 py-2 hover:text-soft-pink hover-glow transition-colors duration-200">
+                <button 
+                @click="activeTab = 'leaderboard'"
+                :class="{ 'tab-active text-soft-pink': activeTab === 'leaderboard', 'text-off-white': activeTab !== 'leaderboard' }"
+                class="font-medium px-4 py-2 hover:text-soft-pink hover-glow transition-colors duration-200">
                     Leaderboard
                 </button>
-                <button class="text-off-white font-medium px-4 py-2 hover:text-soft-pink hover-glow transition-colors duration-200">
+                <button
+                @click="activeTab = 'matches'"
+                :class="{ 'tab-active text-soft-pink': activeTab === 'matches', 'text-off-white': activeTab !== 'matches' }"
+                class="font-medium px-4 py-2 hover:text-soft-pink hover-glow transition-colors duration-200">
                     Matches
                 </button>
-                <button class="text-off-white font-medium px-4 py-2 hover:text-soft-pink hover-glow transition-colors duration-200">
+                <button 
+                @click="activeTab = 'account'"
+                :class="{ 'tab-active text-soft-pink': activeTab === 'account', 'text-off-white': activeTab !== 'account' }"
+                class="font-medium px-4 py-2 hover:text-soft-pink hover-glow transition-colors duration-200">
                     Account
                 </button>
-                <button class="text-off-white font-medium px-4 py-2 hover:text-soft-pink hover-glow transition-colors duration-200">
+                <button 
+                @click="activeTab = 'rules'"
+                :class="{ 'tab-active text-soft-pink': activeTab === 'rules', 'text-off-white': activeTab !== 'rules' }"
+                class="font-medium px-4 py-2 hover:text-soft-pink hover-glow transition-colors duration-200">
                     Rules
                 </button>
             </div>
@@ -120,25 +141,25 @@
         <!-- Main Content Container -->
         <main class="border-2 border-soft-pink rounded-lg p-8 min-h-96">
             <!-- Home/Track Tab Content -->
-            <div id="home-content" class="tab-content grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div id="home-content" x-show="activeTab === 'home'" class="tab-content grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <!-- Left Column (Main Content - 2/3 width) -->
                 <div class="lg:col-span-2">
                     <!-- State 1: Initial View -->
-                    <div id="initial-view">
+                    <div x-show="!isTrackingMatch">
                         <h2 class="text-3xl font-bold text-soft-pink mb-6">Welcome to poolr8ter</h2>
                         <p class="text-off-white text-lg mb-8 leading-relaxed">
                             Track your pool matches, climb the leaderboard, and compete with friends in our ELO-based ranking system. 
                             Every game matters, every shot counts. Ready to make your mark on the felt?
                         </p>
                         <div class="flex justify-start">
-                            <button id="track-match-btn" class="bg-soft-pink hover:bg-soft-pink/90 text-dark-navy font-bold text-xl px-12 py-6 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-soft-pink/20 transform hover:scale-105">
+                            <button @click="isTrackingMatch = true" class="bg-soft-pink hover:bg-soft-pink/90 text-dark-navy font-bold text-xl px-12 py-6 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-soft-pink/20 transform hover:scale-105">
                                 Track a New Match
                             </button>
                         </div>
                     </div>
 
                     <!-- State 2: Form View -->
-                    <div id="form-view" class="hidden">
+                    <div x-show="isTrackingMatch">
                         <h2 class="text-3xl font-bold text-soft-pink mb-8">Report a New Match</h2>
                         
                         <form class="space-y-8">
@@ -200,7 +221,7 @@
 
                         <!-- Back Button -->
                         <div class="mt-8">
-                            <button id="back-btn" class="text-daffodil-yellow hover:text-daffodil-yellow/80 underline transition-colors duration-200">
+                            <button @click="isTrackingMatch = false" class="text-daffodil-yellow hover:text-daffodil-yellow/80 underline transition-colors duration-200">
                                 ← Back to Dashboard
                             </button>
                         </div>
@@ -251,7 +272,7 @@
             </div>
 
             <!-- Leaderboard Tab Content -->
-            <div id="leaderboard-content" class="tab-content hidden">
+            <div id="leaderboard-content" x-show="activeTab === 'leaderboard'" class="tab-content">
                 <div class="overflow-x-auto">
                     <table class="w-full">
                         <thead>
@@ -327,10 +348,10 @@
             </div>
 
             <!-- Matches Tab Content -->
-            <div id="matches-content" class="tab-content hidden">
+            <div id="matches-content" x-show="activeTab === 'matches'" class="tab-content">
                 <h2 class="text-3xl font-bold text-soft-pink mb-8">My Match History</h2>
                 
-                <div class="max-h-96 overflow-y-auto pr-2 custom-scrollbar">
+                <div class="max-h-96 overflow-y-auto pr-2">
                     <ol class="space-y-6">
                     <!-- Match 1 - Victory -->
                     <li class="border-b border-soft-pink/30 pb-6">
@@ -384,7 +405,7 @@
             </div>
             
             <!-- Account Tab Content -->
-            <div id="account-content" class="tab-content hidden">
+            <div id="account-content" x-show="activeTab === 'account'" class="tab-content">
                 <div class="text-center max-w-md mx-auto">
                     <h2 class="text-3xl font-bold text-soft-pink mb-8">Account</h2>
                     
@@ -411,7 +432,7 @@
             </div>
             
             <!-- Rules Tab Content -->
-            <div id="rules-content" class="tab-content hidden">
+            <div id="rules-content" x-show="activeTab === 'rules'" class="tab-content">
                 <div class="max-w-2xl mx-auto">
                     <h2 class="text-3xl font-bold text-soft-pink mb-8 text-center">Pool Rules Guide</h2>
 
@@ -439,125 +460,5 @@
             </p>
         </footer>
     </div>
-
-    <script>
-        // Simple tab switching functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const tabs = document.querySelectorAll('nav button');
-            const tabContents = document.querySelectorAll('.tab-content');
-            
-            const tabMap = {
-                'Home/Track': 'home-content',
-                'Leaderboard': 'leaderboard-content',
-                'Matches': 'matches-content',
-                'Account': 'account-content',
-                'Rules': 'rules-content'
-            };
-            
-            tabs.forEach(tab => {
-                tab.addEventListener('click', function() {
-                    // Remove active class from all tabs
-                    tabs.forEach(t => {
-                        t.classList.remove('tab-active', 'text-soft-pink');
-                        t.classList.add('text-off-white');
-                    });
-                    
-                    // Add active class to clicked tab
-                    this.classList.add('tab-active', 'text-soft-pink');
-                    this.classList.remove('text-off-white');
-                    
-                    // Hide all tab contents
-                    tabContents.forEach(content => {
-                        content.classList.add('hidden');
-                    });
-                    
-                    // Show the selected tab content
-                    const targetContent = document.getElementById(tabMap[this.textContent.trim()]);
-                    if (targetContent) {
-                        targetContent.classList.remove('hidden');
-                    }
-                });
-            });
-
-            // Home/Track component functionality
-            const trackMatchBtn = document.getElementById('track-match-btn');
-            const initialView = document.getElementById('initial-view');
-            const formView = document.getElementById('form-view');
-            const backBtn = document.getElementById('back-btn');
-            const opponentSearch = document.getElementById('opponent-search');
-            const playerList = document.getElementById('player-list');
-            const playerOptions = document.querySelectorAll('.player-option');
-            const radioInputs = document.querySelectorAll('input[name="winner"]');
-            const radioDots = document.querySelectorAll('.radio-dot');
-
-            // Switch to form view
-            if (trackMatchBtn) {
-                trackMatchBtn.addEventListener('click', function() {
-                    initialView.classList.add('hidden');
-                    formView.classList.remove('hidden');
-                });
-            }
-
-            // Switch back to initial view
-            if (backBtn) {
-                backBtn.addEventListener('click', function() {
-                    formView.classList.add('hidden');
-                    initialView.classList.remove('hidden');
-                    // Reset form
-                    if(opponentSearch) opponentSearch.value = '';
-                    if(playerList) playerList.style.display = 'block';
-                    if(radioInputs) radioInputs.forEach(input => input.checked = false);
-                    if(radioDots) radioDots.forEach(dot => dot.style.opacity = '0');
-                });
-            }
-
-            // Opponent search functionality
-            if (opponentSearch) {
-                opponentSearch.addEventListener('input', function() {
-                    const searchTerm = this.value.toLowerCase();
-                    playerOptions.forEach(option => {
-                        const playerName = option.textContent.toLowerCase();
-                        if (playerName.includes(searchTerm)) {
-                            option.style.display = 'block';
-                        } else {
-                            option.style.display = 'none';
-                        }
-                    });
-                });
-            }
-
-            // Player selection
-            playerOptions.forEach(option => {
-                option.addEventListener('click', function() {
-                    if(opponentSearch) opponentSearch.value = this.textContent;
-                    if(playerList) playerList.style.display = 'none';
-                });
-            });
-
-            // Show player list when input is focused
-            if (opponentSearch) {
-                opponentSearch.addEventListener('focus', function() {
-                    if(playerList) playerList.style.display = 'block';
-                });
-            }
-
-            // Hide player list when clicking outside
-            document.addEventListener('click', function(e) {
-                if (opponentSearch && playerList && !e.target.closest('#opponent-search') && !e.target.closest('#player-list')) {
-                    playerList.style.display = 'none';
-                }
-            });
-
-            // Custom radio button functionality
-            radioInputs.forEach((input, index) => {
-                input.addEventListener('change', function() {
-                    radioDots.forEach(dot => dot.style.opacity = '0');
-                    if (this.checked) {
-                        radioDots[index].style.opacity = '1';
-                    }
-                });
-            });
-        });
-    </script>
 </body>
 </html>
