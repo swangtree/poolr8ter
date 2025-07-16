@@ -81,12 +81,11 @@
 
         <!-- Main Content Container -->
         <main class="border-2 border-soft-pink rounded-lg p-8 min-h-96">
-            <!-- Home/Track Tab Content -->
-            <div id="home-content" class="tab-content">
-                <!-- Two-column dashboard layout -->
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    <!-- Left Column (Main Content - 2/3 width) -->
-                    <div class="lg:col-span-2">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Left Column (Main Content - 2/3 width) -->
+                <div class="lg:col-span-2">
+                    <!-- Home/Track Tab Content -->
+                    <div id="home-content" class="tab-content">
                         <!-- State 1: Initial View -->
                         <div id="initial-view">
                             <h2 class="text-3xl font-bold text-soft-pink mb-6">Welcome to poolr8ter</h2>
@@ -171,137 +170,90 @@
                         </div>
                     </div>
 
-                    <!-- Right Column (Sidebar - 1/3 width) -->
-                    <div class="lg:col-span-1">
-                        <div class="bg-dark-navy/20 border border-soft-pink/20 rounded-lg p-6">
-                            <h3 class="text-xl font-bold text-soft-pink mb-6 uppercase tracking-wider">Top 5 Players</h3>
-                            <ol class="space-y-4">
-                                <li class="flex items-center justify-between text-off-white">
-                                    <div class="flex items-center">
-                                        <span class="font-mono text-soft-pink w-6">1.</span>
-                                        <span class="ml-3">Alexandra Chen</span>
-                                    </div>
-                                    <span class="font-mono text-daffodil-yellow">1847</span>
-                                </li>
-                                <li class="flex items-center justify-between text-off-white">
-                                    <div class="flex items-center">
-                                        <span class="font-mono text-soft-pink w-6">2.</span>
-                                        <span class="ml-3">Marcus Rodriguez</span>
-                                    </div>
-                                    <span class="font-mono text-daffodil-yellow">1723</span>
-                                </li>
-                                <li class="flex items-center justify-between text-off-white">
-                                    <div class="flex items-center">
-                                        <span class="font-mono text-soft-pink w-6">3.</span>
-                                        <span class="ml-3">Sarah Thompson</span>
-                                    </div>
-                                    <span class="font-mono text-daffodil-yellow">1689</span>
-                                </li>
-                                <li class="flex items-center justify-between text-off-white">
-                                    <div class="flex items-center">
-                                        <span class="font-mono text-soft-pink w-6">4.</span>
-                                        <span class="ml-3">David Kim</span>
-                                    </div>
-                                    <span class="font-mono text-daffodil-yellow">1542</span>
-                                </li>
-                                <li class="flex items-center justify-between text-off-white">
-                                    <div class="flex items-center">
-                                        <span class="font-mono text-soft-pink w-6">5.</span>
-                                        <span class="ml-3">Emily Johnson</span>
-                                    </div>
-                                    <span class="font-mono text-daffodil-yellow">1498</span>
-                                </li>
-                            </ol>
+                    <!-- Leaderboard Tab Content -->
+                    <div id="leaderboard-content" class="tab-content hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b border-soft-pink">
+                                        <th class="text-left py-4 px-2 text-soft-pink uppercase tracking-wider text-sm font-medium w-16">Rank</th>
+                                        <th class="text-left py-4 px-4 text-soft-pink uppercase tracking-wider text-sm font-medium">Player</th>
+                                        <th class="text-left py-4 px-2 text-soft-pink uppercase tracking-wider text-sm font-medium w-24">ELO</th>
+                                        <th class="text-left py-4 px-2 text-soft-pink uppercase tracking-wider text-sm font-medium w-20">Wins</th>
+                                        <th class="text-left py-4 px-2 text-soft-pink uppercase tracking-wider text-sm font-medium w-20">Losses</th>
+                                        <th class="text-left py-4 px-2 text-soft-pink uppercase tracking-wider text-sm font-medium w-20">Win %</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="hover:bg-dark-navy/20 transition-colors duration-200">
+                                        <td class="py-4 px-2 text-off-white font-mono">1</td>
+                                        <td class="py-4 px-4 text-off-white">Alexandra Chen</td>
+                                        <td class="py-4 px-2 text-off-white font-mono">1847</td>
+                                        <td class="py-4 px-2 text-off-white">42</td>
+                                        <td class="py-4 px-2 text-off-white">8</td>
+                                        <td class="py-4 px-2 text-off-white">84%</td>
+                                    </tr>
+                                    <!-- ... other placeholder rows ... -->
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- Leaderboard Tab Content -->
-            <div id="leaderboard-content" class="tab-content hidden">
-                <div class="overflow-x-auto">
-                    <table class="w-full">
-                        <thead>
-                            <tr class="border-b border-soft-pink">
-                                <th class="text-left py-4 px-2 text-soft-pink uppercase tracking-wider text-sm font-medium w-16">Rank</th>
-                                <th class="text-left py-4 px-4 text-soft-pink uppercase tracking-wider text-sm font-medium">Player</th>
-                                <th class="text-left py-4 px-2 text-soft-pink uppercase tracking-wider text-sm font-medium w-24">ELO</th>
-                                <th class="text-left py-4 px-2 text-soft-pink uppercase tracking-wider text-sm font-medium w-20">Wins</th>
-                                <th class="text-left py-4 px-2 text-soft-pink uppercase tracking-wider text-sm font-medium w-20">Losses</th>
-                                <th class="text-left py-4 px-2 text-soft-pink uppercase tracking-wider text-sm font-medium w-20">Win %</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="hover:bg-dark-navy/20 transition-colors duration-200">
-                                <td class="py-4 px-2 text-off-white font-mono">1</td>
-                                <td class="py-4 px-4 text-off-white">Alexandra Chen</td>
-                                <td class="py-4 px-2 text-off-white font-mono">1847</td>
-                                <td class="py-4 px-2 text-off-white">42</td>
-                                <td class="py-4 px-2 text-off-white">8</td>
-                                <td class="py-4 px-2 text-off-white">84%</td>
-                            </tr>
-                            <tr class="hover:bg-dark-navy/20 transition-colors duration-200">
-                                <td class="py-4 px-2 text-off-white font-mono">2</td>
-                                <td class="py-4 px-4 text-off-white">Marcus Rodriguez</td>
-                                <td class="py-4 px-2 text-off-white font-mono">1723</td>
-                                <td class="py-4 px-2 text-off-white">38</td>
-                                <td class="py-4 px-2 text-off-white">12</td>
-                                <td class="py-4 px-2 text-off-white">76%</td>
-                            </tr>
-                            <tr class="hover:bg-dark-navy/20 transition-colors duration-200">
-                                <td class="py-4 px-2 text-off-white font-mono">3</td>
-                                <td class="py-4 px-4 text-off-white">Sarah Thompson</td>
-                                <td class="py-4 px-2 text-off-white font-mono">1689</td>
-                                <td class="py-4 px-2 text-off-white">35</td>
-                                <td class="py-4 px-2 text-off-white">15</td>
-                                <td class="py-4 px-2 text-off-white">70%</td>
-                            </tr>
-                            <tr class="hover:bg-dark-navy/20 transition-colors duration-200">
-                                <td class="py-4 px-2 text-off-white font-mono">4</td>
-                                <td class="py-4 px-4 text-off-white">David Kim</td>
-                                <td class="py-4 px-2 text-off-white font-mono">1542</td>
-                                <td class="py-4 px-2 text-off-white">29</td>
-                                <td class="py-4 px-2 text-off-white">18</td>
-                                <td class="py-4 px-2 text-off-white">62%</td>
-                            </tr>
-                            <tr class="hover:bg-dark-navy/20 transition-colors duration-200">
-                                <td class="py-4 px-2 text-off-white font-mono">5</td>
-                                <td class="py-4 px-4 text-off-white">Emily Johnson</td>
-                                <td class="py-4 px-2 text-off-white font-mono">1498</td>
-                                <td class="py-4 px-2 text-off-white">26</td>
-                                <td class="py-4 px-2 text-off-white">19</td>
-                                <td class="py-4 px-2 text-off-white">58%</td>
-                            </tr>
-                            <tr class="hover:bg-dark-navy/20 transition-colors duration-200">
-                                <td class="py-4 px-2 text-off-white font-mono">6</td>
-                                <td class="py-4 px-4 text-off-white">James Wilson</td>
-                                <td class="py-4 px-2 text-off-white font-mono">1367</td>
-                                <td class="py-4 px-2 text-off-white">22</td>
-                                <td class="py-4 px-2 text-off-white">23</td>
-                                <td class="py-4 px-2 text-off-white">49%</td>
-                            </tr>
-                            <tr class="hover:bg-dark-navy/20 transition-colors duration-200">
-                                <td class="py-4 px-2 text-off-white font-mono">7</td>
-                                <td class="py-4 px-4 text-off-white">Lisa Martinez</td>
-                                <td class="py-4 px-2 text-off-white font-mono">1289</td>
-                                <td class="py-4 px-2 text-off-white">18</td>
-                                <td class="py-4 px-2 text-off-white">27</td>
-                                <td class="py-4 px-2 text-off-white">40%</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <!-- Placeholder content for other tabs -->
+                    <div id="matches-content" class="tab-content hidden">
+                        <p class="text-off-white text-center">Matches content coming soon...</p>
+                    </div>
+                    <div id="account-content" class="tab-content hidden">
+                        <p class="text-off-white text-center">Account content coming soon...</p>
+                    </div>
+                    <div id="rules-content" class="tab-content hidden">
+                        <p class="text-off-white text-center">Rules content coming soon...</p>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Placeholder content for other tabs -->
-            <div id="matches-content" class="tab-content hidden">
-                <p class="text-off-white text-center">Matches content coming soon...</p>
-            </div>
-            <div id="account-content" class="tab-content hidden">
-                <p class="text-off-white text-center">Account content coming soon...</p>
-            </div>
-            <div id="rules-content" class="tab-content hidden">
-                <p class="text-off-white text-center">Rules content coming soon...</p>
+                <!-- Right Column (Sidebar - 1/3 width) -->
+                <div class="lg:col-span-1">
+                    <div class="bg-dark-navy/20 border border-soft-pink/20 rounded-lg p-6">
+                        <h3 class="text-xl font-bold text-soft-pink mb-6 uppercase tracking-wider">Top 5 Players</h3>
+                        <ol class="space-y-4">
+                            <li class="flex items-center justify-between text-off-white">
+                                <div class="flex items-center">
+                                    <span class="font-mono text-soft-pink w-6">1.</span>
+                                    <span class="ml-3">Alexandra Chen</span>
+                                </div>
+                                <span class="font-mono text-daffodil-yellow">1847</span>
+                            </li>
+                            <li class="flex items-center justify-between text-off-white">
+                                <div class="flex items-center">
+                                    <span class="font-mono text-soft-pink w-6">2.</span>
+                                    <span class="ml-3">Marcus Rodriguez</span>
+                                </div>
+                                <span class="font-mono text-daffodil-yellow">1723</span>
+                            </li>
+                            <li class="flex items-center justify-between text-off-white">
+                                <div class="flex items-center">
+                                    <span class="font-mono text-soft-pink w-6">3.</span>
+                                    <span class="ml-3">Sarah Thompson</span>
+                                </div>
+                                <span class="font-mono text-daffodil-yellow">1689</span>
+                            </li>
+                            <li class="flex items-center justify-between text-off-white">
+                                <div class="flex items-center">
+                                    <span class="font-mono text-soft-pink w-6">4.</span>
+                                    <span class="ml-3">David Kim</span>
+                                </div>
+                                <span class="font-mono text-daffodil-yellow">1542</span>
+                            </li>
+                            <li class="flex items-center justify-between text-off-white">
+                                <div class="flex items-center">
+                                    <span class="font-mono text-soft-pink w-6">5.</span>
+                                    <span class="ml-3">Emily Johnson</span>
+                                </div>
+                                <span class="font-mono text-daffodil-yellow">1498</span>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
             </div>
         </main>
 
