@@ -124,28 +124,35 @@ Fetches the match history for the logged-in user.
 
 ## 5 · Front-End UI (Revised)
 
-The initial focus is on a **simple, functional, and clean UI**, prioritizing usability over complex aesthetics. The design can be inspired by data-dense, utilitarian interfaces like *Pokemon Showdown* or older *Yahoo* pages.
+The UI is a single-page application (`index.html`) built with Tailwind CSS and Alpine.js for interactivity.
 
-### 5.1 Auth Flow
+### 5.1 Design & Aesthetic
+*   **Inspiration:** The design is inspired by the minimalist, data-driven interface of *Monkeytype* combined with a retro "80s After Dark" color theme.
+*   **Color Palette:**
+    *   Background: Dark Navy (`#1b1d36`)
+    *   Primary Accent / Text: Soft Pink (`#fca6d1`)
+    *   Secondary Text: Off-White (`#e1e7eb`)
+    *   Highlights: Pastel Blue (`#99d6ea`) and Daffodil Yellow (`#ffe9a1`)
+*   **Typography:**
+    *   Primary Font: `Inter` (sans-serif)
+    *   Data/Numbers: `JetBrains Mono` (monospaced) for alignment.
+
+### 5.2 Current Status
+*   A static visual prototype (`index.html`) has been created on the `bolt` branch.
+*   This prototype includes the full page layout, tab navigation, and a placeholder leaderboard table that matches the target design.
+*   Basic tab-switching functionality is implemented with vanilla JavaScript.
+
+### 5.3 Auth Flow
 *   **Public Access:** Users can view the `Leaderboard` and `Rules` tabs without logging in.
-*   **Login Prompt:** Clicking on `Home/Track`, `Matches`, or `Account` will trigger a login/signup modal (using Supabase's pre-built UI components is recommended).
+*   **Login Prompt:** Clicking on `Home/Track`, `Matches`, or `Account` will trigger a login/signup modal.
 
-### 5.2 Tab Structure
-1.  **Home/Track:** The main view for a logged-in user.
-    *   A simple form to select an opponent from a list of players.
-    *   A button to declare the winner and submit the match.
-2.  **Leaderboard:**
-    *   A sortable table displaying `Rank`, `Player`, `ELO`, `Wins`, `Losses`, `Win %`.
-    *   A prominent banner at the top to display information about the current season's incentives.
-3.  **Matches:**
-    *   A table/list of the logged-in user's past matches.
-    *   Shows `Opponent`, `Result (W/L)`, `ELO Change`, and `Date`.
-4.  **Account:**
-    *   Displays the logged-in user's `username` and `ELO`.
-    *   Contains a "Logout" button.
-5.  **Rules:**
-    *   An interactive, step-by-step guide to common pool rules.
-    *   Presents questions and answers in a "choose your own adventure" format.
+### 5.4 Tab Structure & Implementation Plan
+The application will be a Single-Page App (SPA). The following components will be built out and dynamically displayed using Alpine.js.
+1.  **Home/Track:** The main view for a logged-in user. Will contain the form to report a match.
+2.  **Leaderboard:** A table displaying `Rank`, `Player`, `ELO`, `Wins`, `Losses`, `Win %`. This will be the first component to be made dynamic.
+3.  **Matches:** A list/table of the logged-in user's past matches.
+4.  **Account:** Displays user info and a logout button.
+5.  **Rules:** An interactive "choose your own adventure" style guide.
 
 ---
 
@@ -197,3 +204,48 @@ A high-level plan to guide the development process, now starting with CI/CD.
     *   Write the `fetch` logic to call the Worker API with the Supabase JWT.
 5.  **Final Polish:**
     *   Finalize styling and ensure mobile responsiveness.
+
+---
+
+## 8 · Frontend To-Do List (New Section)
+
+A checklist for the frontend development phase.
+
+- [x] **Generate Static Components:**
+    - [x] Home/Track (Dashboard Layout)
+    - [x] Leaderboard (Full Table)
+    - [x] Matches (History List)
+    - [x] Account (User Details / Login)
+    - [x] Rules (Interactive Guide)
+- [x] **Refactor to Alpine.js:**
+    - [x] Convert the vanilla JS tab switching and form logic to a unified Alpine.js component.
+    - [ ] Convert the opponent search and selection to use Alpine.js.
+    - [ ] Convert the custom radio buttons to use Alpine.js.
+- [ ] **Implement Mobile Responsiveness:**
+    - [ ] On smaller screens, the right-hand sidebar ("Top 5 Players") should be hidden to save space.
+    - [ ] Ensure all tables and forms are legible and usable on a mobile device.
+- [ ] **Integrate Supabase Auth:**
+    - [ ] Implement login/signup functionality.
+    - [ ] Protect tabs/routes that require authentication.
+- [ ] **Make Components Dynamic:**
+    - [ ] Fetch and display real data for the Leaderboard and Top 5 Players list.
+    - [ ] Fetch and display real data for the Matches history.
+    - [ ] Implement the logic for the "Report a Match" form to submit data to the backend.
+- [ ] **Aesthetic Polish & UX (Future Tasks):**
+    - [ ] **Layout:**
+        - [ ] Fix vertical alignment of tab content to remove the large gap at the bottom (adjust `min-height` on main container).
+        - [ ] Ensure text alignment (centered vs. left-aligned) is consistent and intentional across all tabs.
+        - [ ] In the Matches tab, add padding to prevent the ELO text from being obscured by the scrollbar.
+    - [ ] **Typography:**
+        - [ ] Make font sizing more consistent across all components.
+        - [ ] Consider a secondary font for headers or accents.
+    - [ ] **Animation & Effects:**
+        - [ ] Animate the active tab underline so it slides between tabs instead of appearing instantly.
+        - [ ] Add a subtle background texture or gradient to the header/body to enhance the theme.
+        - [ ] Use `x-transition` to smoothly fade/slide in elements that appear (e.g., the match form).
+        - [ ] Implement an idle-screen animation with a bouncing pool ball inside the main container.
+    - [ ] **User Experience (UX):**
+        - [ ] Make opponent names in the match history clickable links to their profiles/history.
+        - [ ] Add loading state indicators (spinners/skeletons) for when data is being fetched.
+        - [ ] Add "empty state" views for components with no data (e.g., a new user's match history).
+        - [ ] Implement client-side form validation (e.g., disable submit button until form is complete).
