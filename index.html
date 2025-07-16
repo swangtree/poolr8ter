@@ -385,12 +385,47 @@
             
             <!-- Account Tab Content -->
             <div id="account-content" class="tab-content hidden">
-                <p class="text-off-white text-center">Account content coming soon...</p>
+                <div class="text-center max-w-md mx-auto">
+                    <h2 class="text-3xl font-bold text-soft-pink mb-8">Account</h2>
+                    
+                    <!-- This div will be shown to logged-out users -->
+                    <div id="logged-out-view">
+                        <p class="text-off-white mb-6">Please log in or sign up to continue.</p>
+                        <button id="login-btn" class="bg-soft-pink hover:bg-soft-pink/90 text-dark-navy font-bold text-lg px-8 py-4 rounded-lg transition-colors duration-300">
+                            Login or Sign Up
+                        </button>
+                    </div>
+
+                    <!-- This div will be shown to logged-in users -->
+                    <div id="logged-in-view" class="hidden">
+                        <p class="text-2xl text-off-white mb-4">Welcome, <span id="username-display" class="text-daffodil-yellow">user</span>!</p>
+                        <p class="text-lg text-off-white/80 mb-8">Your current ELO is <span id="elo-display" class="font-mono text-pastel-blue">1200</span>.</p>
+                        <button id="logout-btn" class="bg-transparent border-2 border-soft-pink text-soft-pink font-bold py-3 px-8 rounded-lg hover:bg-soft-pink hover:text-dark-navy transition-all duration-300">
+                            Logout
+                        </button>
+                    </div>
+
+                    <!-- This is the container where the Supabase Auth UI will be injected -->
+                    <div id="auth-ui-container" class="mt-8"></div>
+                </div>
             </div>
             
             <!-- Rules Tab Content -->
             <div id="rules-content" class="tab-content hidden">
-                <p class="text-off-white text-center">Rules content coming soon...</p>
+                <div class="max-w-2xl mx-auto">
+                    <h2 class="text-3xl font-bold text-soft-pink mb-8 text-center">Pool Rules Guide</h2>
+
+                    <!-- This is the container for the interactive guide -->
+                    <div id="rules-container">
+                        <div class="rule-step">
+                            <p class="text-xl text-off-white mb-6 text-center">Is it the start of the game (the break shot)?</p>
+                            <div class="flex justify-center gap-4">
+                                <button class="bg-pastel-blue text-dark-navy font-bold px-6 py-3 rounded-lg">Yes</button>
+                                <button class="bg-pastel-blue text-dark-navy font-bold px-6 py-3 rounded-lg">No</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </main>
 
