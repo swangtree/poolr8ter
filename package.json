@@ -1,5 +1,9 @@
 {
+  "scripts": {
+    "dev": "npx serve . -p 3000"
+  },
   "devDependencies": {
-    "wrangler": "^4.22.0"
+    "wrangler": "^4.22.0",
+    "serve": "^14.2.1"
   }
 }
