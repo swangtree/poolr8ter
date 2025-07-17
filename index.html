@@ -93,7 +93,30 @@
         }
     </style>
 </head>
-<body class="bg-dark-navy text-off-white min-h-screen font-sans" x-data="{activeTab: 'home', isTrackingMatch: false}">
+<body class="bg-dark-navy text-off-white min-h-screen font-sans" x-data="{
+    activeTab: 'home', 
+    isTrackingMatch: false,
+    searchTerm: '',
+    isPlayerListVisible: false,
+    winner: null,
+    players: [
+        'Alexandra Chen',
+        'Marcus Rodriguez',
+        'Sarah Thompson',
+        'David Kim',
+        'Emily Johnson',
+        'James Wilson',
+        'Lisa Martinez'
+    ],
+    get filteredPlayers() {
+        if (this.searchTerm === '') {
+            return this.players;
+        }
+        return this.players.filter(player => {
+            return player.toLowerCase().includes(this.searchTerm.toLowerCase());
+        });
+    }
+}">
     <div class="container mx-auto px-6 py-8 max-w-6xl">
         <!-- Header -->
         <header class="text-center mb-12">
@@ -165,27 +188,22 @@
                         <form class="space-y-8">
                             <!-- Opponent Selection -->
                             <div>
-                                <label class="block text-off-white font-medium mb-3 text-lg">Choose your Opponent</label>
-                                <div class="relative">
+                                <label for="opponent-search" class="block text-off-white font-medium mb-3 text-lg">Choose your Opponent</label>
+                                <div class="relative" @click.away="isPlayerListVisible = false">
                                     <input 
                                         type="text" 
                                         id="opponent-search" 
                                         placeholder="Search for a player..."
                                         class="w-full bg-transparent border-2 border-soft-pink/50 rounded-lg px-4 py-3 text-off-white placeholder-off-white/50 focus:border-soft-pink focus:outline-none transition-colors duration-200"
+                                        x-model="searchTerm"
+                                        @focus="isPlayerListVisible = true"
+                                        @keydown.escape.prevent="isPlayerListVisible = false"
                                     >
-                                    <div id="player-list" class="absolute top-full left-0 right-0 mt-2 bg-dark-navy border-2 border-soft-pink/30 rounded-lg max-h-48 overflow-y-auto z-10">
-                                        <div class="player-option px-4 py-3 text-off-white hover:bg-soft-pink/10 cursor-pointer transition-colors duration-200" data-player="Alexandra Chen">
-                                            Alexandra Chen
-                                        </div>
-                                        <div class="player-option px-4 py-3 text-off-white hover:bg-soft-pink/10 cursor-pointer transition-colors duration-200" data-player="Marcus Rodriguez">
-                                            Marcus Rodriguez
-                                        </div>
-                                        <div class="player-option px-4 py-3 text-off-white hover:bg-soft-pink/10 cursor-pointer transition-colors duration-200" data-player="Sarah Thompson">
-                                            Sarah Thompson
-                                        </div>
-                                        <div class="player-option px-4 py-3 text-off-white hover:bg-soft-pink/10 cursor-pointer transition-colors duration-200" data-player="David Kim">
-                                            David Kim
-                                        </div>
+                                    <div x-show="isPlayerListVisible" x-transition class="absolute top-full left-0 right-0 mt-2 bg-dark-navy border-2 border-soft-pink/30 rounded-lg max-h-48 overflow-y-auto z-10">
+                                        <template x-for="player in filteredPlayers" :key="player">
+                                            <div @click="searchTerm = player; isPlayerListVisible = false" class="px-4 py-3 text-off-white hover:bg-soft-pink/10 cursor-pointer transition-colors duration-200" x-text="player">
+                                            </div>
+                                        </template>
                                     </div>
                                 </div>
                             </div>
@@ -195,16 +213,16 @@
                                 <label class="block text-off-white font-medium mb-4 text-lg">Who Won?</label>
                                 <div class="space-y-3">
                                     <label class="flex items-center cursor-pointer group">
-                                        <input type="radio" name="winner" value="me" class="sr-only">
+                                        <input type="radio" name="winner" value="me" class="sr-only" x-model="winner">
                                         <div class="w-5 h-5 border-2 border-soft-pink/50 rounded-full mr-3 flex items-center justify-center group-hover:border-soft-pink transition-colors duration-200">
-                                            <div class="w-2.5 h-2.5 bg-soft-pink rounded-full opacity-0 radio-dot transition-opacity duration-200"></div>
+                                            <div class="w-2.5 h-2.5 bg-soft-pink rounded-full opacity-0 radio-dot transition-opacity duration-200" :class="{ 'opacity-100': winner === 'me' }"></div>
                                         </div>
                                         <span class="text-off-white group-hover:text-soft-pink transition-colors duration-200">Me</span>
                                     </label>
                                     <label class="flex items-center cursor-pointer group">
-                                        <input type="radio" name="winner" value="opponent" class="sr-only">
+                                        <input type="radio" name="winner" value="opponent" class="sr-only" x-model="winner">
                                         <div class="w-5 h-5 border-2 border-soft-pink/50 rounded-full mr-3 flex items-center justify-center group-hover:border-soft-pink transition-colors duration-200">
-                                            <div class="w-2.5 h-2.5 bg-soft-pink rounded-full opacity-0 radio-dot transition-opacity duration-200"></div>
+                                            <div class="w-2.5 h-2.5 bg-soft-pink rounded-full opacity-0 radio-dot transition-opacity duration-200" :class="{ 'opacity-100': winner === 'opponent' }"></div>
                                         </div>
                                         <span class="text-off-white group-hover:text-soft-pink transition-colors duration-200">My Opponent</span>
                                     </label>
