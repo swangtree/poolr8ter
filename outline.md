@@ -146,7 +146,11 @@ The UI is a single-page application (`index.html`) built with Tailwind CSS and A
 *   **Public Access:** Users can view the `Leaderboard` and `Rules` tabs without logging in.
 *   **Login Prompt:** Clicking on `Home/Track`, `Matches`, or `Account` will trigger a login/signup modal.
 
-### 5.4 Tab Structure & Implementation Plan
+### 5.4 Authentication Strategy
+*   **Primary Method:** Social login via Google will be the main authentication method for users. This requires setting up an OAuth application in the Google Cloud Console and adding the Client ID and Secret to the Supabase dashboard.
+*   **Anonymous/Demo Access:** To allow for easy previewing (e.g., by recruiters), an "anonymous" or "demo" login option will be provided. This will programmatically log in a pre-defined demo user, allowing access to the application's core features without requiring a full sign-up.
+
+### 5.5 Tab Structure & Implementation Plan
 The application will be a Single-Page App (SPA). The following components will be built out and dynamically displayed using Alpine.js.
 1.  **Home/Track:** The main view for a logged-in user. Will contain the form to report a match.
 2.  **Leaderboard:** A table displaying `Rank`, `Player`, `ELO`, `Wins`, `Losses`, `Win %`. This will be the first component to be made dynamic.
@@ -219,16 +223,16 @@ A checklist for the frontend development phase.
     - [x] Rules (Interactive Guide)
 - [x] **Refactor to Alpine.js:**
     - [x] Convert the vanilla JS tab switching and form logic to a unified Alpine.js component.
-    - [ ] Convert the opponent search and selection to use Alpine.js.
-    - [ ] Convert the custom radio buttons to use Alpine.js.
+    - [x] Convert the opponent search and selection to use Alpine.js.
+    - [x] Convert the custom radio buttons to use Alpine.js.
 - [ ] **Implement Mobile Responsiveness:**
     - [ ] On smaller screens, the right-hand sidebar ("Top 5 Players") should be hidden to save space.
     - [ ] Ensure all tables and forms are legible and usable on a mobile device.
-- [ ] **Integrate Supabase Auth:**
-    - [ ] Implement login/signup functionality.
-    - [ ] Protect tabs/routes that require authentication.
+- [x] **Integrate Supabase Auth:**
+    - [x] Implement login/signup functionality.
+    - [x] Protect tabs/routes that require authentication.
 - [ ] **Make Components Dynamic:**
-    - [ ] Fetch and display real data for the Leaderboard and Top 5 Players list.
+    - [x] Fetch and display real data for the Leaderboard and Top 5 Players list.
     - [ ] Fetch and display real data for the Matches history.
     - [ ] Implement the logic for the "Report a Match" form to submit data to the backend.
 - [ ] **Aesthetic Polish & UX (Future Tasks):**
@@ -246,6 +250,28 @@ A checklist for the frontend development phase.
         - [ ] Implement an idle-screen animation with a bouncing pool ball inside the main container.
     - [ ] **User Experience (UX):**
         - [ ] Make opponent names in the match history clickable links to their profiles/history.
-        - [ ] Add loading state indicators (spinners/skeletons) for when data is being fetched.
+        - [ ] Add loading state indicators (spinners/skeletons) for when data is being fetched. A spinning 8-ball animation would be a great, on-theme option.
         - [ ] Add "empty state" views for components with no data (e.g., a new user's match history).
         - [ ] Implement client-side form validation (e.g., disable submit button until form is complete).
+
+---
+
+## 9 · Admin Functionality (New Section)
+
+To ensure the league can be managed effectively, a separate, secure admin interface will be developed.
+
+### 9.1 Core Features
+*   **Match Management:**
+    *   Manually add a match between any two players.
+    *   Edit the result of an existing match.
+    *   Delete an incorrect or invalid match.
+*   **Player Management:**
+    *   Adjust a player's ELO rating.
+    *   Change a player's username.
+    *   Assign or revoke admin privileges for other users.
+
+### 9.2 Technical Implementation
+*   **Database:** Add a `role` column (e.g., `TEXT`, with values like 'user' or 'admin') to the `players` table.
+*   **Authentication:** Configure Supabase to embed the user's `role` into their JWT upon login. This is known as using "custom claims."
+*   **Backend:** Create new, protected API endpoints in the Cloudflare Worker for each admin action (e.g., `PUT /admin/matches/:id`, `DELETE /admin/matches/:id`). These endpoints will validate the JWT and check the user's role before executing.
+*   **Frontend:** Create a new, hidden "Admin" tab that is only visible to users with the 'admin' role. This tab will contain the forms and buttons needed to perform the admin actions.
