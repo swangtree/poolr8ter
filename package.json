@@ -3,7 +3,10 @@
     "dev": "npx serve . -p 3000"
   },
   "devDependencies": {
-    "wrangler": "^4.22.0",
-    "serve": "^14.2.1"
+    "serve": "^14.2.1",
+    "wrangler": "^4.26.1"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.1"
   }
 }
