@@ -1,0 +1,10 @@
+# Dependencies
+node_modules
+worker/node_modules
+
+# Git
+.git
+.github
+
+# Worker source code (it's bundled separately)
+worker/src

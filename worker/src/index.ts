@@ -22,8 +22,8 @@ export default {
 		if (method === "GET" && pathname === "/leaderboard") {
 			try{
 				const {data, error} = await supabase
-				.from("players")
-				.select("id, username, elo, wins, losses")
+				.from("players_with_win_percentage")
+				.select("*")
 				.order("elo", {ascending: false});
 
 				if (error) {
@@ -134,6 +134,49 @@ export default {
 
 			} catch (error) {
 				console.error('Error fetching match history:', error);
+				return new Response(JSON.stringify({ error: 'An unexpected error occurred' }), { status: 500 });
+			}
+		}
+
+		if (method === 'POST' && pathname === '/username') {
+			try {
+				// 1. Authenticate the user
+				const authHeader = request.headers.get('Authorization');
+				if (!authHeader || !authHeader.startsWith('Bearer ')) {
+					return new Response(JSON.stringify({ error: 'Missing or invalid Authorization header' }), { status: 401 });
+				}
+				const token = authHeader.split(' ')[1];
+				const { data: { user }, error: userError } = await supabase.auth.getUser(token);
+
+				if (userError || !user) {
+					return new Response(JSON.stringify({ error: 'Invalid JWT' }), { status: 401 });
+				}
+
+				// 2. Parse the new username from the body
+				const { new_username } = await request.json() as { new_username: string };
+				if (!new_username) {
+					return new Response(JSON.stringify({ error: 'Missing new_username in request body' }), { status: 400 });
+				}
+
+				// 3. Update the player's username in the database
+				const { error: updateError } = await supabase
+					.from('players')
+					.update({ username: new_username })
+					.eq('id', user.id);
+
+				if (updateError) {
+					console.error('Supabase error updating username:', updateError);
+					// Check for a unique constraint violation
+					if (updateError.code === '23505') {
+						return new Response(JSON.stringify({ error: 'Username is already taken.' }), { status: 409 }); // 409 Conflict
+					}
+					return new Response(JSON.stringify({ error: 'Failed to update username.' }), { status: 500 });
+				}
+
+				return new Response(JSON.stringify({ message: 'Username updated successfully!' }), { status: 200 });
+
+			} catch (error) {
+				console.error('Error updating username:', error);
 				return new Response(JSON.stringify({ error: 'An unexpected error occurred' }), { status: 500 });
 			}
 		}
