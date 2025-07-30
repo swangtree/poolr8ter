@@ -231,10 +231,10 @@ A checklist for the frontend development phase.
 - [x] **Integrate Supabase Auth:**
     - [x] Implement login/signup functionality.
     - [x] Protect tabs/routes that require authentication.
-- [ ] **Make Components Dynamic:**
+- [x] **Make Components Dynamic:**
     - [x] Fetch and display real data for the Leaderboard and Top 5 Players list.
-    - [ ] Fetch and display real data for the Matches history.
-    - [ ] Implement the logic for the "Report a Match" form to submit data to the backend.
+    - [x] Fetch and display real data for the Matches history.
+    - [x] Implement the logic for the "Report a Match" form to submit data to the backend.
 - [ ] **Aesthetic Polish & UX (Future Tasks):**
     - [ ] **Layout:**
         - [ ] Fix vertical alignment of tab content to remove the large gap at the bottom (adjust `min-height` on main container).
