@@ -4,11 +4,5 @@
   "compatibility_date": "2025-07-31",
   "assets": {
     "directory": "./public"
-  },
-  "routes": [
-    {
-      "pattern": "poolr8ter.samuelwang352.workers.dev/*",
-      "zone_name": "samuelwang352.workers.dev"
-    }
-  ]
+  }
 }
