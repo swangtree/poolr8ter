@@ -18,8 +18,10 @@ interface ReportMatchBody {
 export default {
 	async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
 		const origin = request.headers.get('Origin') || '';
+		const normalizedOrigin = origin.endsWith('/') ? origin.slice(0, -1) : origin;
+		
 		const corsHeaders = {
-			'Access-Control-Allow-Origin': allowedOrigins.includes(origin) ? origin : allowedOrigins[0],
+			'Access-Control-Allow-Origin': allowedOrigins.includes(normalizedOrigin) ? normalizedOrigin : allowedOrigins[0],
 			'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
 			'Access-Control-Allow-Headers': 'Content-Type, Authorization',
 		};
