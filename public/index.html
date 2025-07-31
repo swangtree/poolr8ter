@@ -97,7 +97,7 @@
         document.addEventListener("alpine:init", () => {
             const supabaseUrl = 'https://vuisghzwbvzzoazwkluz.supabase.co';
             const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ1aXNnaHp3YnZ6em9hendrbHV6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI0NTk1MjgsImV4cCI6MjA2ODAzNTUyOH0.O5bMmOVqtD2f3f0GwYnlZIUskrFjFGcP71So_jmLjKs";
-            const apiUrl = 'https://poolr8ter.samuelwang352.workers.dev';
+            const apiUrl = 'https://poolr8ter.samuelwang.workers.dev';
 
             const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
@@ -147,7 +147,7 @@
                 const token = this.session.access_token;
 
                 try {
-                    const response = await fetch('/matches', {
+                    const response = await fetch(`${apiUrl}/matches`, {
                         headers: {
                             'Authorization': `Bearer ${token}`
                         }
@@ -166,7 +166,7 @@
 
             fetchLeaderboard() {
                 this.leaderboardLoading = true;
-                fetch("/leaderboard")
+                fetch(`${apiUrl}/leaderboard`)
                     .then(response => response.json())
                     .then(data => {
                         this.leaderboard = data;
@@ -227,7 +227,7 @@
 
                 // 5. Make API Call
                 try {
-                    const response = await fetch('/report', {
+                    const response = await fetch(`${apiUrl}/report`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -267,7 +267,7 @@
                 const token = this.session.access_token;
 
                 try {
-                    const response = await fetch('/username', {
+                    const response = await fetch(`${apiUrl}/username`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
