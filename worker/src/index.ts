@@ -12,6 +12,8 @@ interface ReportMatchBody {
 
 export default {
 	async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+		console.log(`[worker] Received request: ${request.method} ${request.url}`);
+
 		// CORS preflight handling
 		if (request.method === 'OPTIONS') {
 			return handleOptions(request);
