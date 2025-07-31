@@ -38,18 +38,6 @@
         body {
             font-family: 'Inter', sans-serif;
         }
-        .tab-active {
-            position: relative;
-        }
-        .tab-active::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background-color: #ff6b9d;
-        }
         .hover-glow:hover {
             text-shadow: 0 0 8px rgba(255, 107, 157, 0.6);
             transition: text-shadow 0.2s ease;
@@ -92,6 +80,36 @@
             width: 2px;
             background-color: rgba(252, 166, 209, 0.3); /* soft-pink with 30% opacity */
         }
+
+        /* New Loading Spinner Styles */
+        .loading-spinner {
+            width: 56px;
+            height: 56px;
+            display: grid;
+            animation: spin 2.4s infinite linear;
+        }
+
+        .loading-spinner::before,
+        .loading-spinner::after {
+            content: "";
+            grid-area: 1/1;
+            border: 8px solid;
+            border-radius: 50%;
+            border-color: #fca6d1 #fca6d1 #0000 #0000;
+            mix-blend-mode: darken;
+            animation: spin 1.2s infinite linear;
+        }
+
+        .loading-spinner::after {
+            border-color: #0000 #0000 #ffe9a1 #ffe9a1;
+            animation-direction: reverse;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(1turn);
+            }
+        }
     </style>
     <script>
         document.addEventListener("alpine:init", () => {
@@ -115,17 +133,38 @@
             matchesLoading: false,
             isEditingUsername: false,
             newUsername: '',
+            isAppLoading: true,
             
             init() {
                 const supabase = Alpine.store('supabase');
-                this.fetchLeaderboard();
                 
-                // Check for an existing session when the app loads
-                supabase.auth.getSession().then(({ data: { session } }) => {
-                    this.session = session;
-                    if (session) {
-                        this.fetchMatches();
-                    }
+                // Set up the watcher for the sliding underline
+                this.$watch('activeTab', () => {
+                    this.updateUnderlinePosition();
+                });
+                
+                // Simulate initial load and fetch data
+                Promise.all([
+                    this.fetchLeaderboard(),
+                    new Promise(resolve => {
+                        supabase.auth.getSession().then(({ data: { session } }) => {
+                            this.session = session;
+                            if (session) {
+                                this.fetchMatches().then(resolve);
+                            } else {
+                                resolve();
+                            }
+                        });
+                    })
+                ]).then(() => {
+                    // Add a small delay to prevent jarring flashes
+                    setTimeout(() => {
+                        this.isAppLoading = false;
+                        // Now that the app is visible, set the initial underline position
+                        this.$nextTick(() => {
+                            this.updateUnderlinePosition();
+                        });
+                    }, 500);
                 });
 
                 // Listen for changes in auth state
@@ -138,6 +177,16 @@
                         this.matches = [];
                     }
                 });
+            },
+
+            updateUnderlinePosition() {
+                const activeTabEl = this.$refs[this.activeTab];
+                const underlineEl = this.$refs.underline;
+
+                if (activeTabEl) {
+                    underlineEl.style.width = `${activeTabEl.offsetWidth}px`;
+                    underlineEl.style.transform = `translateX(${activeTabEl.offsetLeft}px)`;
+                }
             },
 
             async fetchMatches() {
@@ -324,54 +373,75 @@
     </script>
 </head>
 <body class="bg-dark-navy text-off-white min-h-screen font-sans" x-data="poolr8ter">
-    <div class="container mx-auto px-6 py-8 max-w-6xl">
+    <!-- Initial Loading Spinner -->
+    <div x-show="isAppLoading" x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 flex items-center justify-center bg-dark-navy z-50">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <div class="container mx-auto px-6 py-8 max-w-6xl" x-show="!isAppLoading" x-transition:enter="transition ease-out duration-500" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
         <!-- Header -->
         <header class="text-center mb-12">
-            <h1 class="text-6xl font-bold text-soft-pink mb-2 tracking-tight hover-glow cursor-default">
-                poolr8ter
+            <h1 class="text-6xl font-bold text-soft-pink tracking-tight hover-glow cursor-default flex justify-center items-center">
+                <span>poolr</span>
+                <svg width="60" height="60" viewBox="0 0 200 200" class="mx-2" aria-label="8">
+                    <title>8</title>
+                    <ellipse cx="100" cy="100" fill="#fca6d1" rx="100" ry="100"/>
+                    <ellipse cx="83.33" cy="77.33" fill="#ffffff" rx="55" ry="55"/>
+                    <text fill="#1b1d36" font-family="Sans-serif" font-size="90" font-weight="bold" text-anchor="middle" x="82" y="108" transform="rotate(-10, 83.33, 77.33)">8</text>
+                </svg>
+                <span>ter</span>
             </h1>
         </header>
 
         <!-- Navigation Tabs -->
         <nav class="mb-8">
-            <div class="flex justify-center space-x-8 border-b border-soft-pink/20 pb-2">
-                <button 
-                @click="activeTab = 'home'"
-                :class="{ 'tab-active text-soft-pink': activeTab === 'home', 'text-off-white': activeTab !== 'home' }"
-                class="font-medium px-4 py-2 hover:text-soft-pink hover-glow transition-colors duration-200">
-                    Home/Track
-                </button>
-                <button 
-                @click="activeTab = 'leaderboard'"
-                :class="{ 'tab-active text-soft-pink': activeTab === 'leaderboard', 'text-off-white': activeTab !== 'leaderboard' }"
-                class="font-medium px-4 py-2 hover:text-soft-pink hover-glow transition-colors duration-200">
-                    Leaderboard
-                </button>
-                <button
-                @click="activeTab = 'matches'"
-                :class="{ 'tab-active text-soft-pink': activeTab === 'matches', 'text-off-white': activeTab !== 'matches' }"
-                class="font-medium px-4 py-2 hover:text-soft-pink hover-glow transition-colors duration-200">
-                    Matches
-                </button>
-                <button 
-                @click="activeTab = 'account'"
-                :class="{ 'tab-active text-soft-pink': activeTab === 'account', 'text-off-white': activeTab !== 'account' }"
-                class="font-medium px-4 py-2 hover:text-soft-pink hover-glow transition-colors duration-200">
-                    Account
-                </button>
-                <button 
-                @click="activeTab = 'rules'"
-                :class="{ 'tab-active text-soft-pink': activeTab === 'rules', 'text-off-white': activeTab !== 'rules' }"
-                class="font-medium px-4 py-2 hover:text-soft-pink hover-glow transition-colors duration-200">
-                    Rules
-                </button>
+            <div class="flex justify-center">
+                <div class="relative flex border-b border-soft-pink/20 pb-2">
+                    <button 
+                        @click="activeTab = 'home'"
+                        :class="{ 'text-soft-pink': activeTab === 'home', 'text-off-white': activeTab !== 'home' }"
+                        class="font-medium px-4 py-2 hover:text-soft-pink hover-glow transition-colors duration-200"
+                        x-ref="home">
+                        Home/Track
+                    </button>
+                    <button 
+                        @click="activeTab = 'leaderboard'"
+                        :class="{ 'text-soft-pink': activeTab === 'leaderboard', 'text-off-white': activeTab !== 'leaderboard' }"
+                        class="font-medium px-4 py-2 hover:text-soft-pink hover-glow transition-colors duration-200 ml-8"
+                        x-ref="leaderboard">
+                        Leaderboard
+                    </button>
+                    <button
+                        @click="activeTab = 'matches'"
+                        :class="{ 'text-soft-pink': activeTab === 'matches', 'text-off-white': activeTab !== 'matches' }"
+                        class="font-medium px-4 py-2 hover:text-soft-pink hover-glow transition-colors duration-200 ml-8"
+                        x-ref="matches">
+                        Matches
+                    </button>
+                    <button 
+                        @click="activeTab = 'account'"
+                        :class="{ 'text-soft-pink': activeTab === 'account', 'text-off-white': activeTab !== 'account' }"
+                        class="font-medium px-4 py-2 hover:text-soft-pink hover-glow transition-colors duration-200 ml-8"
+                        x-ref="account">
+                        Account
+                    </button>
+                    <button 
+                        @click="activeTab = 'rules'"
+                        :class="{ 'text-soft-pink': activeTab === 'rules', 'text-off-white': activeTab !== 'rules' }"
+                        class="font-medium px-4 py-2 hover:text-soft-pink hover-glow transition-colors duration-200 ml-8"
+                        x-ref="rules">
+                        Rules
+                    </button>
+                    <!-- Sliding Underline -->
+                    <div x-ref="underline" class="absolute bottom-[-2px] h-0.5 bg-[#ff6b9d] transition-all duration-300 ease-in-out"></div>
+                </div>
             </div>
         </nav>
 
         <!-- Main Content Container -->
         <main class="border-2 border-soft-pink rounded-lg p-8 min-h-96">
             <!-- Home/Track Tab Content -->
-            <div id="home-content" x-show="activeTab === 'home'" class="tab-content grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div id="home-content" x-show="activeTab === 'home'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="tab-content grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <!-- Left Column (Main Content - 2/3 width) -->
                 <div class="lg:col-span-2">
                     <!-- Logged-in View -->
@@ -486,7 +556,7 @@
             </div>
 
             <!-- Leaderboard Tab Content -->
-            <div id="leaderboard-content" x-show="activeTab === 'leaderboard'" class="tab-content">
+            <div id="leaderboard-content" x-show="activeTab === 'leaderboard'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="tab-content">
                 <div class="overflow-x-auto">
                     <table class="w-full">
                         <thead>
@@ -528,7 +598,7 @@
             </div>
 
             <!-- Matches Tab Content -->
-            <div id="matches-content" x-show="activeTab === 'matches'" class="tab-content">
+            <div id="matches-content" x-show="activeTab === 'matches'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="tab-content">
                 <h2 class="text-3xl font-bold text-soft-pink mb-8">My Match History</h2>
                 
                 <!-- Loading State -->
@@ -569,7 +639,7 @@
             </div>
             
             <!-- Account Tab Content -->
-            <div id="account-content" x-show="activeTab === 'account'" class="tab-content">
+            <div id="account-content" x-show="activeTab === 'account'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="tab-content">
                 <div class="text-center max-w-md mx-auto">
                     <h2 class="text-3xl font-bold text-soft-pink mb-8">Account</h2>
                     
@@ -624,7 +694,7 @@
             </div>
             
             <!-- Rules Tab Content -->
-            <div id="rules-content" x-show="activeTab === 'rules'" class="tab-content">
+            <div id="rules-content" x-show="activeTab === 'rules'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="tab-content">
                 <div class="max-w-2xl mx-auto">
                     <h2 class="text-3xl font-bold text-soft-pink mb-8 text-center">Pool Rules Guide</h2>
 
@@ -645,8 +715,8 @@
         <!-- Footer -->
         <footer class="mt-12 text-center">
             <p class="text-off-white/50 text-sm">
-                Built for competitive pool players •
-                <a href="#" class="text-daffodil-yellow hover:text-daffodil-yellow/80 transition-colors duration-200">
+                Built for fun! •
+                <a href="https://github.com/swangtree/poolr8ter" class="text-daffodil-yellow hover:text-daffodil-yellow/80 transition-colors duration-200">
                     GitHub
                 </a>
             </p>
