@@ -5,12 +5,10 @@ interface Env {
 	SUPABASE_SERVICE_ROLE_KEY: string;
 }
 
-// Define CORS headers for reuse
-const corsHeaders = {
-	'Access-Control-Allow-Origin': 'https://swangtree.github.io',
-	'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-	'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-};
+const allowedOrigins = [
+	'https://swangtree.github.io',
+	'http://localhost:8787'
+];
 
 interface ReportMatchBody {
 	opponent_id: string;
@@ -19,13 +17,18 @@ interface ReportMatchBody {
 
 export default {
 	async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
-		// Handle CORS preflight requests first
+		const origin = request.headers.get('Origin') || '';
+		const corsHeaders = {
+			'Access-Control-Allow-Origin': allowedOrigins.includes(origin) ? origin : allowedOrigins[0],
+			'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+			'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+		};
+
 		if (request.method === 'OPTIONS') {
-			return handleOptions(request);
+			return handleOptions(request, corsHeaders);
 		}
 
 		const supabase = createClient(env.SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY);
-
 		const url = new URL(request.url);
 		const { pathname } = url;
 		const { method } = request;
@@ -124,23 +127,21 @@ export default {
 		} catch (e: any) {
 			console.error("Worker error:", e);
 			const errorMessage = e.message || "An internal error occurred";
-			const errorStatus = e.code === '23505' ? 409 : 500; // Example of specific error handling
+			const errorStatus = e.code === '23505' ? 409 : 500;
 			return new Response(JSON.stringify({ error: errorMessage }), { status: errorStatus, headers: corsHeaders });
 		}
 	},
 };
 
-const handleOptions = (request: Request) => {
+const handleOptions = (request: Request, corsHeaders: Record<string, string>) => {
 	const reqHeaders = request.headers;
 	if (
 		reqHeaders.get('Origin') !== null &&
 		reqHeaders.get('Access-Control-Request-Method') !== null &&
 		reqHeaders.get('Access-Control-Request-Headers') !== null
 	) {
-		// Handle CORS preflight requests.
 		return new Response(null, { headers: corsHeaders });
 	} else {
-		// Handle standard OPTIONS request.
 		return new Response(null, {
 			headers: {
 				Allow: 'GET, POST, OPTIONS',
