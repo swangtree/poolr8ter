@@ -30,8 +30,6 @@ export default {
 		const { pathname } = url;
 		const { method } = request;
 
-		let response;
-
 		try {
 			if (method === "GET" && pathname === "/leaderboard") {
 				const { data, error } = await supabase
@@ -40,7 +38,7 @@ export default {
 					.order("elo", { ascending: false });
 
 				if (error) throw error;
-				response = Response.json(data);
+				return Response.json(data, { headers: corsHeaders });
 
 			} else if (method === "POST" && pathname === "/report") {
 				const authHeader = request.headers.get("Authorization");
@@ -66,7 +64,7 @@ export default {
 				});
 
 				if (rpcError) throw rpcError;
-				response = new Response(JSON.stringify({ message: "Match reported successfully!" }), { status: 200 });
+				return new Response(JSON.stringify({ message: "Match reported successfully!" }), { status: 200, headers: corsHeaders });
 
 			} else if (method === 'GET' && pathname === '/matches') {
 				const authHeader = request.headers.get('Authorization');
@@ -91,7 +89,7 @@ export default {
 					played_at: new Date(match.played_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
 				}));
 
-				response = Response.json(processedMatches);
+				return Response.json(processedMatches, { headers: corsHeaders });
 
 			} else if (method === 'POST' && pathname === '/username') {
 				const authHeader = request.headers.get('Authorization');
@@ -117,15 +115,11 @@ export default {
 					}
 					throw updateError;
 				}
-				response = new Response(JSON.stringify({ message: 'Username updated successfully!' }), { status: 200 });
+				return new Response(JSON.stringify({ message: 'Username updated successfully!' }), { status: 200, headers: corsHeaders });
 
 			} else {
-				response = new Response('Not Found', { status: 404 });
+				return new Response('Not Found', { status: 404, headers: corsHeaders });
 			}
-
-			// Add CORS headers to the successful response
-			response.headers.set('Access-Control-Allow-Origin', corsHeaders['Access-Control-Allow-Origin']);
-			return response;
 
 		} catch (e: any) {
 			console.error("Worker error:", e);
