@@ -27,18 +27,18 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '20' # Use a Node version compatible with the latest Wrangler
 
       - name: Install root dependencies
-        run: npm install
+        run: npm ci
 
       - name: Install worker dependencies
-        run: npm install
+        run: npm ci
         working-directory: ./worker
 
       - name: Deploy Worker
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          command: deploy src/index.ts --name poolr8ter --compatibility-date 2025-07-31
-        working-directory: ./worker
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: 'worker'
